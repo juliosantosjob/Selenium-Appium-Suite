@@ -1,6 +1,5 @@
 package automation.example.com.actions;
 
-import static automation.example.com.pages.LoginMobilePages.*;
 import static automation.example.com.pages.LoginWebPages.*;
 import static automation.example.com.pages.LoginWebPages.loginButton;
 import static automation.example.com.support.BaseTest.*;
