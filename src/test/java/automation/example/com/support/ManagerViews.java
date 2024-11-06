@@ -6,7 +6,5 @@ public class ManagerViews {
 
     public static void setView(WebDriver driver) {
         driver.manage().window().maximize();
-
-
     }
 }

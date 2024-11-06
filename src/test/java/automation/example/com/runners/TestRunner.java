@@ -10,7 +10,7 @@ import org.junit.platform.suite.api.Suite;
 
 @Suite
 @IncludeTags("regression")
-@DisplayName("Executor dos testes - Framework")
+@DisplayName("Classe de execução dos testes --> Selenium-Appium-Suite")
 @SelectPackages("src.test.java.automation.example.com.tests")
 @SelectClasses({
     LoginWebTest.class,
