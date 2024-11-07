@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginMobileTest extends Hooks {
 
     @Test
-    @Tag("login")
+    @Tag("login_mobile")
     @DisplayName("Cenário 01: Deve realizar um login no app")
     public void mustLogInToTheApp() {
         changeDriverTo("mobile");
