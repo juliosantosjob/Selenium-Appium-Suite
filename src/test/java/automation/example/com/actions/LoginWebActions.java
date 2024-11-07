@@ -9,18 +9,23 @@ public class LoginWebActions {
     public void openApp() {
         visit(baseUrl);
         visibleText(titleLoginPage);
+        System.out.println("Abre o aplicativo e verifica a visibilidade do título da página de login.");
     }
 
     public void fillForm(String username, String password) {
         type(usernameInput, username);
         type(passwordInput, password);
+        System.out.println("Preenche o formulário com o usuário: " + username + " e senha.");
     }
 
     public void submitLogin() {
         click(loginButton);
+        System.out.println("Submete o login.");
     }
 
     public String getTextProduct() {
-        return grabText(fieldProduct);
+        String productText = grabText(fieldProduct);
+        System.out.println("Obtém o texto do produto: " + productText);
+        return productText;
     }
 }
