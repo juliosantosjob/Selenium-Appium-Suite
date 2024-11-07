@@ -1,6 +1,5 @@
 package automation.example.com.tests;
 
-
 import automation.example.com.actions.LoginMobileActions;
 import automation.example.com.support.Hooks;
 import org.junit.jupiter.api.DisplayName;

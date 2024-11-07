@@ -12,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static automation.example.com.support.ManagerViews.setView;
-import static java.lang.System.out;
 
 public class BaseTest {
     private static final String TIMEOUT = EnvProperties.getEnv("app.base.timeout");
@@ -73,7 +72,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            return getElement(by).getText();;
+            return getElement(by).getText();
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -83,7 +82,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            return getDriver().findElement(by);;
+            return getDriver().findElement(by);
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }

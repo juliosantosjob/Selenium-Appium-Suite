@@ -1,16 +1,19 @@
 package automation.example.com.support.instances;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
+
+import java.util.logging.Level;
 
 public class Browsers {
 
     public static WebDriver getInstanceOptions(String browserType) {
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
+
         EdgeOptions edgeOptions = new EdgeOptions();
         ChromeOptions chromeOptions = new ChromeOptions();
 
@@ -23,10 +26,6 @@ public class Browsers {
             case "edge":
                 edgeOptions.addArguments("--window-size=1920x1080");
                 return new EdgeDriver(edgeOptions);
-
-            case "safari":
-                WebDriverManager.safaridriver().setup();
-                return new SafariDriver();
 
             case "chrome_headless":
                 chromeOptions.addArguments("--headless");
