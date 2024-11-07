@@ -24,7 +24,5 @@ public class LoginMobileTest extends Hooks {
         loginMobile.fillForm("standard_user", "secret_sauce");
         loginMobile.submitLogin();
         assertEquals("PRODUCTS", loginMobile.getTextProduct());
-
-        tearDown();
     }
 }
