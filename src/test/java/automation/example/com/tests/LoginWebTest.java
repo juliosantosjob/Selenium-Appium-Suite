@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("regression")
 @Tag("regression_web")
-@DisplayName("Funcionalidade: Login Web")
+@DisplayName("Login na Web")
 public class LoginWebTest extends Hooks {
 
     @Test

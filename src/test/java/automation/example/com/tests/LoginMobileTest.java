@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("regression")
 @Tag("regression_mobile")
-@DisplayName("Login Mobile Tests")
+@DisplayName("Login no Mobile")
 public class LoginMobileTest extends Hooks {
 
     @Test

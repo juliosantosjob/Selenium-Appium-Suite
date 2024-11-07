@@ -10,10 +10,10 @@ import java.net.URL;
 
 public class Devices {
     private static final String APPIUM_SERVER = "http://127.0.0.1:4723";
+    private static final DesiredCapabilities capabilities = new DesiredCapabilities();
 
     public static AndroidDriver getInstanceAndroid() throws MalformedURLException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "Android");
+        capabilities.setCapability("appium:platformName", "Android");
         capabilities.setCapability("appium:automationName", "uiautomator2");
         capabilities.setCapability("appium:deviceName", "emulator-5554");
         capabilities.setCapability("appium:app", new File("app/SauceLabs.apk").getAbsolutePath());
@@ -24,8 +24,7 @@ public class Devices {
     }
 
     public static IOSDriver getInstanceIOS() throws MalformedURLException {
-        DesiredCapabilities capabilities = new DesiredCapabilities();
-        capabilities.setCapability("platformName", "iOS");
+        capabilities.setCapability("appium:platformName", "iOS");
         capabilities.setCapability("appium:automationName", "XCUITest");
         capabilities.setCapability("appium:deviceName", "iPhone 11");
         capabilities.setCapability("appium:app", new File("app/VodQA.app").getAbsolutePath());
