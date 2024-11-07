@@ -48,8 +48,6 @@ public class BaseTest {
         } else {
             throw new IllegalArgumentException("Navegador não suportado: " + driverType);
         }
-
-        out.println("** Driver alterada para tipo: " + driverType + " **");
     }
 
     public static WebDriver getDriver() {
@@ -66,7 +64,6 @@ public class BaseTest {
     public static void visit(String url) {
         try {
             getDriver().get(url);
-            out.println("- Visita url: " + url);
         } catch (Exception e) {
             throw new RuntimeException("Erro ao visitar a URL: " + url, e);
         }
@@ -76,10 +73,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            String element = getElement(by).getText();
-
-            out.println("- Pega o texto: \"" + element + "\"");
-            return element;
+            return getElement(by).getText();;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -89,9 +83,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            WebElement element = getDriver().findElement(by);
-            out.println("- Pega o elemento: " + element);
-            return element;
+            return getDriver().findElement(by);;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
@@ -101,10 +93,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            WebElement element = getElement(by);
-            out.println("- Clica no elemento: " + element);
-
-            element.click();
+            getElement(by).click();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -126,10 +115,7 @@ public class BaseTest {
         waitElement(by, 5);
 
         try {
-            WebElement element = getElement(by);
-            out.println("- Preenche o texto \"" + text + "\" no elemento: " + element);
-
-            element.sendKeys(text);
+            getElement(by).sendKeys(text);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,7 +142,6 @@ public class BaseTest {
     public static void clickText(String text) {
         try {
             getElement(By.xpath("//*[text()='" + text + "']")).click();
-            out.println("- Clica no texto: \"" + text + "\"");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +150,6 @@ public class BaseTest {
     public static void visibleText(String text) {
         try {
             getElement(By.xpath("//*[contains(text(),'" + text + "')]")).isDisplayed();
-            out.println("- Encontra o texto: \"" + text + "\"");
         } catch (Exception e) {
             e.printStackTrace();
         }
