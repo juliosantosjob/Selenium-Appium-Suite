@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@IncludeTags("regression")
+@IncludeTags("regression_web")
 @DisplayName("Classe de execução dos testes : Selenium-Appium-Suite")
 @SelectPackages("src.test.java.automation.example.com.tests")
 @SelectClasses({

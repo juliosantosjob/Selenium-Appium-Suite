@@ -2,10 +2,7 @@ package automation.example.com.support;
 
 import automation.example.com.support.instances.Browsers;
 import automation.example.com.support.instances.Devices;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -63,7 +60,8 @@ public class BaseTest {
     public static void visit(String url) {
         try {
             getDriver().get(url);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException("Erro ao visitar a URL: " + url, e);
         }
     }
@@ -83,8 +81,8 @@ public class BaseTest {
 
         try {
             return getDriver().findElement(by);
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (TimeoutException e) {
+            throw new TimeoutException("Elemento não encontrado: " + by);
         }
     }
 

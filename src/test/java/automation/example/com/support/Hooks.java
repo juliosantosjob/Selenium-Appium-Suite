@@ -4,21 +4,25 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import java.util.logging.Level;
+import static java.lang.System.out;
+
 
 public class Hooks extends BaseTest {
 
     @BeforeEach
     public void beforeTests(TestInfo testInfo) {
-        System.out.println("********************************************");
-        System.out.println("Nome do cenario: " + testInfo.getDisplayName());
-        System.out.println("Tag de execução: " + testInfo.getTags());
-        System.out.println("********************************************");
-        System.out.println("\n");
+        out.println("*********************************************************");
+        out.println("Testes em Execução...");
+        out.println("Nome do Cenário: [" + testInfo.getDisplayName() + "]");
+        out.println("Tag de Execução: " + testInfo.getTags());
+        out.println("*********************************************************");
     }
 
     @AfterEach
     public void afterTests() {
+        out.println("*********************************************************");
+        out.println("Testes Concluídos...");
+        out.println("*********************************************************");
         tearDown();
     }
 }

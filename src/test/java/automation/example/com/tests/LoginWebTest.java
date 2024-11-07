@@ -9,13 +9,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("regression")
+@Tag("regression_web")
 @DisplayName("Funcionalidade: Login Web")
 public class LoginWebTest extends Hooks {
 
     @Test
     @Tag("loginWeb")
-    @DisplayName("Cenário 01: Deve realizar um login no Web")
-    public void mustLogInToTheWebApp() {
+    @DisplayName("Validando login na web com sucesso")
+    public void validateLoginWebSuccessFull() {
         changeDriverTo("web");
 
         LoginWebActions loginWeb = new LoginWebActions();
