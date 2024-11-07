@@ -11,9 +11,6 @@ import java.util.logging.Level;
 public class Browsers {
 
     public static WebDriver getInstanceOptions(String browserType) {
-        System.setProperty("webdriver.chrome.silentOutput", "true");
-        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(Level.SEVERE);
-
         EdgeOptions edgeOptions = new EdgeOptions();
         ChromeOptions chromeOptions = new ChromeOptions();
 
