@@ -14,9 +14,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginWebTest extends Hooks {
 
     @Test
+<<<<<<< HEAD
     @Tag("loginWeb")
     @DisplayName("Validando login na web com sucesso")
     public void validateLoginWebSuccessFull() {
+=======
+    @Tag("login_web")
+    @DisplayName("Cenário 01: Deve realizar um login no Web")
+    public void mustLogInToTheWebApp() {
+>>>>>>> 14cebf99391fc90f87969879c989aa7228d96290
         changeDriverTo("web");
 
         LoginWebActions loginWeb = new LoginWebActions();
