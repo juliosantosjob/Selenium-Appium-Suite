@@ -22,14 +22,14 @@ public class BaseTest {
         setView(driver);
     }
 
-    public static void startMobileDriver(String platform) {
+    public static void startMobileDriver(String platformType) {
         try {
-            if (platform.equals("android")) {
+            if (platformType.equals("android")) {
                 driver = Devices.getInstanceAndroid();
-            } else if (platform.equals("ios")) {
+            } else if (platformType.equals("ios")) {
                 driver = Devices.getInstanceIOS();
             } else {
-                throw new IllegalArgumentException("Plataforma não suportada: " + platform);
+                throw new IllegalArgumentException("Plataforma não suportada: " + platformType);
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,6 +17,7 @@ public class Browsers {
 
         switch (browserType.toLowerCase()) {
             case "chrome":
+                chromeOptions.addArguments("--log-level=3");
                 chromeOptions.addArguments("--remote-allow-origins=*");
                 chromeOptions.addArguments("--window-size=1920x1080");
                 return new ChromeDriver(chromeOptions);
@@ -29,6 +30,7 @@ public class Browsers {
                 return new FirefoxDriver();
 
             case "chrome_headless":
+                chromeOptions.addArguments("--log-level=3");
                 chromeOptions.addArguments("--headless");
                 chromeOptions.addArguments("--remote-allow-origins=*");
                 chromeOptions.addArguments("--window-size=1920x1080");

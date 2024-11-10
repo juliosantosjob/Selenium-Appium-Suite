@@ -11,14 +11,19 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junitJupiter.version>5.9.2</junitJupiter.version>
         <JusuiteEngine.version>1.8.1</JusuiteEngine.version>
         <appium.version>9.3.0</appium.version>
-        <selenium.version>4.21.0</selenium.version>
+        <selenium.version>4.26.0</selenium.version>
         <webdrivermanager.version>5.9.2</webdrivermanager.version>
         <allure.version>2.20.1</allure.version>
         <sf4j.version>1.7.36</sf4j.version>
+        <log4j.version>1.4.11</log4j.version>
+        <surefire.plugin.version>3.0.0-M7</surefire.plugin.version>
+        <aspectj.version>1.9.21</aspectj.version>
+        <clean.allure.version>3.1.0</clean.allure.version>
     </properties>
 
     <dependencies>
@@ -53,9 +58,55 @@
             <version>${allure.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-nop</artifactId>
-            <version>${sf4j.version}</version>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${log4j.version}</version>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.plugin.version}</version>
+                <configuration>
+                    <test>automation.example.com.runners.TestRunner.java</test>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjweaver</artifactId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${clean.allure.version}</version>
+                <executions>
+                    <execution>
+                        <id>clean-allure-results</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>allure-results</directory>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>

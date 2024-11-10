@@ -5,21 +5,30 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
 
+import static automation.example.com.utils.Reports.attachScreenshot;
 import static java.lang.System.out;
 
 public class Hooks extends BaseTest {
+    private static int testCount = 0;
 
     @BeforeEach
     public void init(TestInfo testInfo) {
-        out.println("\n************************************************************");
+        testCount++;
+        out.println("************************************************************");
         out.println("Funcionalidade: " + getClass().getAnnotation(DisplayName.class).value());
         out.println("Nome do Cenário: " + testInfo.getDisplayName());
         out.println("Tag de Execução: " + testInfo.getTags());
-        out.println("************************************************************\n");
+        out.println("************************************************************");
     }
 
     @AfterEach
     public void end() {
+        attachScreenshot();
+        out.println("\n");
         tearDown();
+    }
+
+    public static void endSuite() {
+        out.println("Total de cenários executados: " + testCount);
     }
 }
