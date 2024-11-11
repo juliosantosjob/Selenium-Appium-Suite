@@ -1,23 +1,28 @@
 package automation.example.com.support;
 
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
 
-public class ManagerViews {
+import static java.lang.Integer.parseInt;
 
-    public static void setView(WebDriver driver) {
-        driver.manage().window().maximize();
-    }
+public class ManagerViews extends BaseTest {
+    public static String viewPort = System.getProperty("SET_VIEWPORT");
 
-    public void setViewportMobile(WebDriver driver) {
-        driver.manage().window().setSize(new Dimension(375, 812)); // iPhone X
-    }
+    public static void setNewViewport() {
+        if (viewPort == null || viewPort.isEmpty()) {
+            getDriver().manage().window().maximize();
+        } else {
+            String[] size = viewPort.split("X");
 
-    public void setViewportTablet(WebDriver driver) {
-        driver.manage().window().setSize(new Dimension(768, 1024)); // iPad
-    }
+            if (size.length != 2) {
+                throw new RuntimeException("Formato inválido de viewport. Exemplos: -DSET_VIEWPORT=1920x1080");
+            }
 
-    public void setViewportDesktop(WebDriver driver) {
-        driver.manage().window().setSize(new Dimension(1440, 900)); // Desktop comum
+            int width = parseInt(size[0]);
+            int height = parseInt(size[1]);
+
+            getDriver().manage().window().setSize(
+                    new Dimension(width, height)
+            );
+        }
     }
 }

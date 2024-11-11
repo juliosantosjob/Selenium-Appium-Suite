@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static automation.example.com.support.ManagerViews.setView;
+import static automation.example.com.support.ManagerViews.setNewViewport;
 
 public class BaseTest {
     private static final String TIMEOUT = EnvProperties.getEnv("app.base.timeout");
@@ -17,12 +17,11 @@ public class BaseTest {
     private static WebDriver driver;
     private static WebDriverWait wait;
 
-    public static void startWebDriver(String browserType) {
+    public static void setWebDriver(String browserType) {
         driver = Browsers.getInstanceOptions(browserType);
-        setView(driver);
     }
 
-    public static void startMobileDriver(String platformType) {
+    public static void setMobileDriver(String platformType) {
         try {
             if (platformType.equals("android")) {
                 driver = Devices.getInstanceAndroid();
@@ -38,9 +37,10 @@ public class BaseTest {
 
     public static void changeDriverTo(String driverType) {
         if (driverType.equals("mobile")) {
-            startMobileDriver(platform);
+            setMobileDriver(platform);
         } else if (driverType.equals("web")) {
-            startWebDriver(browser);
+            setWebDriver(browser);
+            setNewViewport();
         } else {
             throw new IllegalArgumentException("Navegador não suportado: " + driverType);
         }

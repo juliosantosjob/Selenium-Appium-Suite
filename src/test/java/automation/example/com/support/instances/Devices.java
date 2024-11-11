@@ -19,7 +19,6 @@ public class Devices {
         capabilities.setCapability("appium:app", new File("app/SauceLabs.apk").getAbsolutePath());
         capabilities.setCapability("appium:noReset", "false");
         capabilities.setCapability("appium:appWaitActivity", "com.swaglabsmobileapp.*");
-
         return new AndroidDriver(new URL(APPIUM_SERVER), capabilities);
     }
 
@@ -29,7 +28,6 @@ public class Devices {
         capabilities.setCapability("appium:deviceName", "iPhone 11");
         capabilities.setCapability("appium:app", new File("app/VodQA.app").getAbsolutePath());
         capabilities.setCapability("appium:noReset", "true");
-
         return new IOSDriver(new URL(APPIUM_SERVER), capabilities);
     }
 }

@@ -9,12 +9,11 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
 public class Browsers {
+    private static final ChromeOptions chromeOptions = new ChromeOptions();
+    private static final FirefoxOptions firefoxOptions = new FirefoxOptions();
+    private static final EdgeOptions edgeOptions = new EdgeOptions();
 
     public static WebDriver getInstanceOptions(String browserType) {
-        EdgeOptions edgeOptions = new EdgeOptions();
-        ChromeOptions chromeOptions = new ChromeOptions();
-        FirefoxOptions firefoxOptions = new FirefoxOptions();
-
         switch (browserType.toLowerCase()) {
             case "chrome":
                 chromeOptions.addArguments("--log-level=3");
@@ -22,12 +21,12 @@ public class Browsers {
                 chromeOptions.addArguments("--window-size=1920x1080");
                 return new ChromeDriver(chromeOptions);
 
+            case "firefox":
+                return new FirefoxDriver();
+
             case "edge":
                 edgeOptions.addArguments("--window-size=1920x1080");
                 return new EdgeDriver(edgeOptions);
-
-            case "firefox":
-                return new FirefoxDriver();
 
             case "chrome_headless":
                 chromeOptions.addArguments("--log-level=3");
@@ -36,14 +35,14 @@ public class Browsers {
                 chromeOptions.addArguments("--window-size=1920x1080");
                 return new ChromeDriver(chromeOptions);
 
+            case "firefox_headless":
+                firefoxOptions.addArguments("-headless");
+                return new FirefoxDriver(firefoxOptions);
+
             case "edge_headless":
                 edgeOptions.addArguments("headless");
                 edgeOptions.addArguments("--window-size=1920x1080");
                 return new EdgeDriver(edgeOptions);
-
-            case "firefox_headless":
-                firefoxOptions.addArguments("-headless");
-                return new FirefoxDriver(firefoxOptions);
 
             default:
                 throw new IllegalArgumentException("Browser not supported: " + browserType);
