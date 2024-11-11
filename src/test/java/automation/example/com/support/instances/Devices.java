@@ -26,7 +26,7 @@ public class Devices {
         capabilities.setCapability("appium:platformName", "iOS");
         capabilities.setCapability("appium:automationName", "XCUITest");
         capabilities.setCapability("appium:deviceName", "iPhone 11");
-        capabilities.setCapability("appium:app", new File("app/VodQA.app").getAbsolutePath());
+        capabilities.setCapability("appium:app", new File("app/SauceLabs.app").getAbsolutePath());
         capabilities.setCapability("appium:noReset", "true");
         return new IOSDriver(new URL(APPIUM_SERVER), capabilities);
     }
