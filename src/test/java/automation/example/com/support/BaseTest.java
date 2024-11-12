@@ -9,9 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 import static automation.example.com.support.ManagerViews.setNewViewport;
+import static java.lang.Long.parseLong;
 
 public class BaseTest {
-    private static final String TIMEOUT = EnvProperties.getEnv("app.base.timeout");
+    private static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
     private static final String browser = EnvProperties.getEnv("app.base.browser");
     private static final String platform = EnvProperties.getEnv("app.base.platform");
     private static WebDriver driver;
@@ -23,9 +24,9 @@ public class BaseTest {
 
     public static void setMobileDriver(String platformType) {
         try {
-            if (platformType.equals("android")) {
+            if ("android".equalsIgnoreCase(platformType)) {
                 driver = Devices.getInstanceAndroid();
-            } else if (platformType.equals("ios")) {
+            } else if ("ios".equalsIgnoreCase(platformType)) {
                 driver = Devices.getInstanceIOS();
             } else {
                 throw new IllegalArgumentException("Plataforma não suportada: " + platformType);
@@ -57,50 +58,56 @@ public class BaseTest {
         }
     }
 
+    public static WebDriverWait waitSupport(long... timeout) {
+        return new WebDriverWait(getDriver(), Duration.ofSeconds(
+                timeout.length > 0 ? timeout[0] : TIMEOUT));
+    }
+
     public static void visit(String url) {
         try {
             getDriver().get(url);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao visitar a URL: " + url, e);
         }
     }
 
-    public static String grabText(By by) {
-        waitElement(by, 5);
-
+    public static WebElement getElement(By by, long... timeout) {
         try {
-            return getElement(by).getText();
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
+            wait = waitSupport(timeout);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
-    public static WebElement getElement(By by) {
-        waitElement(by, 5);
-
-        try {
             return getDriver().findElement(by);
         } catch (TimeoutException e) {
             throw new TimeoutException("Elemento não encontrado: " + by);
         }
     }
 
-    public static void click(By by) {
-        waitElement(by, 5);
+    public static String grabText(By by, long... timeout) {
 
         try {
-            getElement(by).click();
+            wait = waitSupport(timeout);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            return getDriver().findElement(by).getText();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public static void click(By by, long... timeout) {
+        WebElement element = getElement(by);
+
+        try {
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.elementToBeClickable(element));
+            element.click();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void waitElement(By by, long... timeout) {
-        wait = new WebDriverWait(getDriver(), Duration.ofSeconds(
-                timeout.length > 0 ? timeout[0] : Long.parseLong(TIMEOUT)));
-
         try {
+            wait = waitSupport(timeout);
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             wait.until(ExpectedConditions.elementToBeClickable(by));
         } catch (Exception e) {
@@ -109,10 +116,13 @@ public class BaseTest {
     }
 
     public static void type(By by, String text) {
-        waitElement(by, 5);
-
         try {
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            getElement(by).clear();
             getElement(by).sendKeys(text);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -120,6 +130,10 @@ public class BaseTest {
 
     public static void pressKey(By by, Keys button) {
         try {
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            getElement(by).clear();
             getElement(by).sendKeys(button);
         } catch (Exception e) {
             e.printStackTrace();
@@ -127,9 +141,9 @@ public class BaseTest {
     }
 
     public static void visible(By by) {
-        waitElement(by, 5);
-
         try {
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             getElement(by).isDisplayed();
         } catch (Exception e) {
             e.printStackTrace();
@@ -138,7 +152,11 @@ public class BaseTest {
 
     public static void clickText(String text) {
         try {
-            getElement(By.xpath("//*[text()='" + text + "']")).click();
+            By byElement = By.xpath("//*[contains(text(),'" + text + "')]");
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
+
+            getElement(byElement).click();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,7 +164,10 @@ public class BaseTest {
 
     public static void visibleText(String text) {
         try {
-            getElement(By.xpath("//*[contains(text(),'" + text + "')]")).isDisplayed();
+            By byElement = By.xpath("//*[contains(text(),'" + text + "')]");
+            wait = waitSupport(5);
+            wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
+            getElement(byElement).isDisplayed();
         } catch (Exception e) {
             e.printStackTrace();
         }

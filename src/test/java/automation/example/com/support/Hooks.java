@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
 
-import static automation.example.com.support.ManagerViews.setNewViewport;
 import static automation.example.com.utils.Reports.attachScreenshot;
 import static java.lang.System.out;
 
