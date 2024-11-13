@@ -18,12 +18,6 @@ public class BaseTest {
     private static WebDriver driver;
     private static WebDriverWait wait;
 
-    public static void setup() {
-        if (driver == null) {
-           setWebDriver("chrome");
-        }
-    }
-
     public static void setWebDriver(String browserType) {
         driver = Browsers.getInstanceOptions(browserType);
     }
