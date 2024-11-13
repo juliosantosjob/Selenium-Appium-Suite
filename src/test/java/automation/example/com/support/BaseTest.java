@@ -12,12 +12,12 @@ import static automation.example.com.support.ManagerViews.setNewViewport;
 import static java.lang.Long.parseLong;
 
 public class BaseTest {
-    protected static int testCount = 0;
     private static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
     private static final String browser = EnvProperties.getEnv("app.base.browser");
     private static final String platform = EnvProperties.getEnv("app.base.platform");
     private static WebDriver driver;
     private static WebDriverWait wait;
+    protected static int testCount = 0;
 
     public static void setWebDriver(String browserType) {
         driver = Browsers.getInstanceOptions(browserType);

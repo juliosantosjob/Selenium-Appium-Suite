@@ -1,11 +1,13 @@
 package automation.example.com.support;
 
+import automation.example.com.utils.Reports;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
 
-import static automation.example.com.utils.Reports.attachScreenshot;
+
 import static java.lang.System.out;
 
 public class Hooks extends BaseTest {
@@ -21,9 +23,14 @@ public class Hooks extends BaseTest {
 
     @AfterEach
     public void end() {
-        testCount++;
-        attachScreenshot();
         out.println("\n");
+        testCount++;
+        Reports.attachScreenshot();
         tearDown();
+    }
+
+    @AfterAll
+    public static void endSuite() {
+        out.println("Cenários executados: " + testCount);
     }
 }

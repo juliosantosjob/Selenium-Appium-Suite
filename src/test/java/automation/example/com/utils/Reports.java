@@ -1,6 +1,6 @@
 package automation.example.com.utils;
 
-import automation.example.com.support.Hooks;
+import automation.example.com.support.BaseTest;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -8,7 +8,9 @@ import org.openqa.selenium.TakesScreenshot;
 
 import java.io.File;
 
-public class Reports extends Hooks {
+import static automation.example.com.support.BaseTest.getDriver;
+
+public class Reports {
 
     public static void attachScreenshot() {
         try {

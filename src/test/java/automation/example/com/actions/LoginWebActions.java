@@ -32,4 +32,10 @@ public class LoginWebActions {
         out.println("- Obtém o texto do produto: " + productText);
         return productText;
     }
+
+    public String getErrorMessage() {
+        String errorMessage = grabText(messageError);
+        out.println("- Obtém o texto do erro: " + errorMessage);
+        return errorMessage;
+    }
 }
