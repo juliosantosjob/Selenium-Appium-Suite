@@ -1,6 +1,6 @@
-package automation.example.com.tests;
+package automation.example.com.usecases.mobile.tests;
 
-import automation.example.com.actions.LoginMobileActions;
+import automation.example.com.usecases.mobile.actions.LoginMobileActions;
 import automation.example.com.support.Hooks;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;

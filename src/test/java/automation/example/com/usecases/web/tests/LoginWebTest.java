@@ -1,7 +1,7 @@
-package automation.example.com.tests;
+package automation.example.com.usecases.web.tests;
 
-import automation.example.com.actions.LoginMobileActions;
-import automation.example.com.actions.LoginWebActions;
+
+import automation.example.com.usecases.web.actions.LoginWebActions;
 import automation.example.com.support.Hooks;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

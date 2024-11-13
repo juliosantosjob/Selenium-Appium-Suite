@@ -1,9 +1,8 @@
-package automation.example.com.actions;
+package automation.example.com.usecases.web.actions;
 
 import automation.example.com.support.EnvProperties;
 
-import static automation.example.com.pages.LoginWebPages.*;
-import static automation.example.com.pages.LoginWebPages.loginButton;
+import static automation.example.com.usecases.web.pages.LoginWebPages.*;
 import static automation.example.com.support.BaseTest.*;
 import static java.lang.System.out;
 

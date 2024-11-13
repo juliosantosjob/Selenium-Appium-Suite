@@ -1,4 +1,4 @@
-package automation.example.com.pages;
+package automation.example.com.usecases.web.pages;
 
 import org.openqa.selenium.By;
 

@@ -1,6 +1,5 @@
 package automation.example.com.utils;
 
-import automation.example.com.support.BaseTest;
 import io.qameta.allure.Allure;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
