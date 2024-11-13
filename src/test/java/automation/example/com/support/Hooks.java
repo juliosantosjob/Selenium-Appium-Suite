@@ -13,8 +13,6 @@ public class Hooks extends BaseTest {
 
     @BeforeEach
     public void init(TestInfo testInfo) {
-        testCount++;
-        setup();
         out.println("************************************************************");
         out.println("Funcionalidade: " + getClass().getAnnotation(DisplayName.class).value());
         out.println("Nome do Cenário: " + testInfo.getDisplayName());
@@ -24,9 +22,10 @@ public class Hooks extends BaseTest {
 
     @AfterEach
     public void end() {
-        attachScreenshot();
         out.println("\n");
+        attachScreenshot();
         tearDown();
+        testCount++;
     }
 
     public static void endSuite() {
