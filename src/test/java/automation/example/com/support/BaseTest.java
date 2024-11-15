@@ -15,34 +15,42 @@ public class BaseTest {
     private static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
     private static final String browser = EnvProperties.getEnv("app.base.browser");
     private static final String platform = EnvProperties.getEnv("app.base.platform");
-    protected static int testCount = 0;
     private static WebDriverWait wait;
+    protected static int testCount = 0;
     private static WebDriver driver;
 
     public static void setWebDriver(String browserType) {
         driver = Browsers.getInstanceOptions(browserType);
+        setNewViewport(driver);
     }
 
     public static void setMobileDriver(String platformType) {
+        if ("android".equalsIgnoreCase(platformType) || "ios".equalsIgnoreCase(platformType)) {
+            System.err.println("***** As opçõoes de plataforma para o driver mobile devem ser: \"android\" ou \"ios\" *****");
+        }
+
         try {
-            if (platformType.equals("android")) {
+            if ("android".equalsIgnoreCase(platformType)) {
                 driver = Devices.getInstanceAndroid();
-            } else if (platformType.equals("ios")) {
+            } else if ("ios".equalsIgnoreCase(platformType)) {
                 driver = Devices.getInstanceIOS();
             } else {
                 throw new IllegalArgumentException("Plataforma não suportada: " + platformType);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.err.println("***** Erro ao instanciar o driver mobile *****" + e.getMessage());
         }
     }
 
     public static void changeDriverTo(String driverType) {
-        if (driverType.equals("mobile")) {
+        if (!"mobile".equalsIgnoreCase(driverType) && !"web".equalsIgnoreCase(driverType)) {
+            System.err.println("***** Opção para troca de driver nao encontrada, por favor escolha as opções: \"mobile\" ou \"web\" *****");
+        }
+
+        if ("mobile".equalsIgnoreCase(driverType)) {
             setMobileDriver(platform);
-        } else if (driverType.equals("web")) {
+        } else if ("web".equalsIgnoreCase(driverType)) {
             setWebDriver(browser);
-            setNewViewport();
         } else {
             throw new IllegalArgumentException("Navegador não suportado: " + driverType);
         }
@@ -63,7 +71,7 @@ public class BaseTest {
         try {
             getDriver().get(url);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao visitar a URL: " + url, e);
+            throw new RuntimeException("Erro ao visitar a URL: " + url + e.getMessage());
         }
     }
 
@@ -71,13 +79,14 @@ public class BaseTest {
         WebElement element = getDriver().findElement(by);
 
         try {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(
-                    timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
             return element;
         } catch (TimeoutException e) {
-            throw new TimeoutException("Elemento não encontrado: " + by);
+            throw new TimeoutException("Elemento: " + by + " não encontrado" + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException("Erro de execução: " + e.getMessage());
         }
     }
 
@@ -85,8 +94,7 @@ public class BaseTest {
         WebElement element = getElement(by);
 
         try {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(
-                    timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             return element.getText();
         } catch (Exception e) {
@@ -98,8 +106,7 @@ public class BaseTest {
         WebElement element = getElement(by);
 
         try {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(
-                    timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.elementToBeClickable(element));
             element.click();
         } catch (Exception e) {
@@ -109,8 +116,7 @@ public class BaseTest {
 
     public static void waitElement(By by, long... timeout) {
         try {
-            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(
-                    timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             wait.until(ExpectedConditions.elementToBeClickable(by));
         } catch (Exception e) {
