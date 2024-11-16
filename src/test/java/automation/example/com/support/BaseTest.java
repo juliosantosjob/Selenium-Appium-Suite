@@ -2,14 +2,23 @@ package automation.example.com.support;
 
 import automation.example.com.support.instances.Browsers;
 import automation.example.com.support.instances.Devices;
-import org.openqa.selenium.*;
+
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.WebDriverException;
 
 import java.time.Duration;
 
 import static automation.example.com.support.ManagerViews.setNewViewport;
 import static java.lang.Long.parseLong;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class BaseTest {
     private static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
@@ -81,12 +90,16 @@ public class BaseTest {
         try {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-
             return element;
+
         } catch (TimeoutException e) {
-            throw new TimeoutException("Elemento: " + by + " não encontrado" + e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException("Erro de execução: " + e.getMessage());
+            return fail("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
+        } catch (NoSuchElementException e) {
+            return fail("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            return fail("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            return fail("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 
