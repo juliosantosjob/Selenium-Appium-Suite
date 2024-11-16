@@ -1,6 +1,5 @@
 package automation.example.com.usecases.web.tests;
 
-
 import automation.example.com.usecases.web.actions.LoginWebActions;
 import automation.example.com.support.Hooks;
 import org.junit.jupiter.api.MethodOrderer;
@@ -26,7 +25,7 @@ public class LoginWebTest extends Hooks {
 
     @Test
     @Order(1)
-    @Tag("loginWeb")
+    @Tag("login_web")
     @DisplayName("1 - Validando login na web com sucesso")
     public void validateLoginWebSuccessFull() {
         LoginWebActions loginWeb = new LoginWebActions();

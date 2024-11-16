@@ -1,13 +1,14 @@
 package automation.example.com.support;
 
-import automation.example.com.utils.Reports;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
 
 
+import static automation.example.com.utils.Reports.attachScreenshot;
 import static java.lang.System.out;
 
 public class Hooks extends BaseTest {
@@ -15,9 +16,9 @@ public class Hooks extends BaseTest {
     @BeforeEach
     public void init(TestInfo testInfo) {
         out.println("************************************************************");
-        out.println("Funcionalidade: " + getClass().getAnnotation(DisplayName.class).value());
-        out.println("Nome do Cenário: " + testInfo.getDisplayName());
-        out.println("Tag de Execução: " + testInfo.getTags());
+        out.println("Feature: " + getClass().getAnnotation(DisplayName.class).value());
+        out.println("Scenario: " + testInfo.getDisplayName());
+        out.println("Tags: " + testInfo.getTags());
         out.println("************************************************************");
     }
 
@@ -25,16 +26,18 @@ public class Hooks extends BaseTest {
     public void end() {
         out.println("\n");
         testCount++;
+        attachScreenshot();
         tearDown();
     }
 
-    @AfterEach
-    public void publishReport() {
-        Reports.attachScreenshot();
+    @BeforeAll
+    public static void initSuite() {
+        out.println("Initializing test suite...");
     }
 
     @AfterAll
     public static void endSuite() {
-        out.println("Cenários executados: " + testCount);
+        out.println("Ending test suite...");
+        out.println("Count of scenarios executed: " + testCount);
     }
 }
