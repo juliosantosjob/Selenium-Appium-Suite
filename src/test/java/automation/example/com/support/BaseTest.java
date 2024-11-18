@@ -153,8 +153,6 @@ public class BaseTest {
                     attempt++;
                 }
             }
-
-            element.click();
         } catch (TimeoutException e) {
             throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
         } catch (NoSuchElementException e) {
