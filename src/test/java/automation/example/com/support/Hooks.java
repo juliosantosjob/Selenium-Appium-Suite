@@ -23,9 +23,9 @@ public class Hooks extends BaseTest {
 
     @AfterEach
     public void end() {
+        attachScreenshot();
         out.println("\n");
         testCount++;
-        attachScreenshot();
         tearDown();
     }
 
