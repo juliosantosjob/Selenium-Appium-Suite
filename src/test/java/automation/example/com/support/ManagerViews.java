@@ -22,9 +22,9 @@ public class ManagerViews extends BaseTest {
             int width = parseInt(size[0]);
             int height = parseInt(size[1]);
 
-            // Configs support
+            // Config viewport size and wait timeout //
             getDriver().manage().window().setSize(new Dimension(width, height));
-            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         }
     }
 }

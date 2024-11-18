@@ -7,45 +7,41 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.net.MalformedURLException;
 import java.time.Duration;
 
 import static automation.example.com.support.ManagerViews.*;
 import static java.lang.Long.parseLong;
 
 public class BaseTest {
-    private static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
-    private static final String browser = EnvProperties.getEnv("app.base.browser");
-    private static final String platform = EnvProperties.getEnv("app.base.platform");
-
+    protected static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
+    protected static final String browser = EnvProperties.getEnv("app.base.browser");
+    protected static final String platform = EnvProperties.getEnv("app.base.platform");
     protected static int testCount = 0;
-    private static WebDriverWait wait;
-    private static WebDriver driver;
+    protected static WebDriverWait wait;
+    protected static WebDriver driver;
 
-    public static void setWebDriver(String browserType) {
-        driver = Browsers.getInstanceOptions(browserType);
+    public static WebDriver getWebDriver(String browserType) {
+        return Browsers.getInstanceOptions(browserType);
     }
 
-    public static void setMobileDriver(String platformType) {
-        try {
-            if ("android".equalsIgnoreCase(platformType)) {
-                driver = Devices.getInstanceAndroid();
-            } else if ("ios".equalsIgnoreCase(platformType)) {
-                driver = Devices.getInstanceIOS();
-            } else {
-                throw new IllegalArgumentException("Platform not supported: " + platformType);
-            }
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+    public static WebDriver getMobileDriver(String platformType) throws MalformedURLException {
+        if ("android".equalsIgnoreCase(platformType)) {
+            return Devices.getInstanceAndroid();
+        } else if ("ios".equalsIgnoreCase(platformType)) {
+            return Devices.getInstanceIOS();
+        } else {
+            throw new IllegalArgumentException("Platform not supported: " + platformType);
         }
     }
 
-    public static void changeDriverTo(String driverType) {
+    public static void changeDriverTo(String driverType) throws MalformedURLException {
         if ("mobile".equalsIgnoreCase(driverType)) {
-            setMobileDriver(platform);
+            driver = getMobileDriver(platform);
         } else if ("web".equalsIgnoreCase(driverType)) {
-            setWebDriver(browser);
+            driver = getWebDriver(browser);
         } else {
-            throw new IllegalArgumentException("Invalid driver type: " + driverType);
+            throw new IllegalArgumentException("Driver type not supported: " + driverType);
         }
         helpConfig();
     }
@@ -114,6 +110,7 @@ public class BaseTest {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             element.click();
+
         } catch (TimeoutException e) {
             throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
         } catch (NoSuchElementException e) {
@@ -143,16 +140,14 @@ public class BaseTest {
 
     public void waitBeClickable(By by) {
         WebElement element = getDriver().findElement(by);
-        int maxAttempts = 10;
+        int maxAttempts = 5;
         int attempt = 1;
-        boolean elementClickable = false;
 
         try {
             while (attempt <= maxAttempts) {
                 try {
                     wait.until(ExpectedConditions.elementToBeClickable(by));
                     element.click();
-                    elementClickable = true;
                     break;
                 } catch (Exception e) {
                     attempt++;
@@ -160,8 +155,6 @@ public class BaseTest {
             }
 
             element.click();
-        } catch (ElementClickInterceptedException e) {
-            ((JavascriptExecutor) getDriver()).executeScript("arguments[0].click();", element);
         } catch (TimeoutException e) {
             throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
         } catch (NoSuchElementException e) {
@@ -182,8 +175,12 @@ public class BaseTest {
             wait.until(ExpectedConditions.elementToBeClickable(by));
 
             element.sendKeys(text);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 
@@ -196,8 +193,12 @@ public class BaseTest {
             wait.until(ExpectedConditions.elementToBeClickable(by));
 
             element.sendKeys(button);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 
@@ -209,8 +210,12 @@ public class BaseTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 
             element.isDisplayed();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 
@@ -222,8 +227,12 @@ public class BaseTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
 
             getElement(byElement).click();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 
@@ -235,8 +244,12 @@ public class BaseTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
 
             getElement(byElement).isDisplayed();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
 }

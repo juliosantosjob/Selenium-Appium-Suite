@@ -9,7 +9,7 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@IncludeTags("test_sample")
+@IncludeTags("login_web")
 @DisplayName("Classe de execução dos testes - Swag Labs Application")
 @SelectPackages("src.test.java.automation.example.com.modules")
 @SelectClasses({
