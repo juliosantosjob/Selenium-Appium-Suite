@@ -1,6 +1,6 @@
-package automation.example.com.usecases.web.tests;
+package automation.example.com.usecases.web;
 
-import automation.example.com.usecases.web.actions.LoginWebActions;
+import automation.example.com.actions.web.LoginWebActions;
 import automation.example.com.support.Hooks;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.DisplayName;
@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.net.MalformedURLException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class LoginWebTest extends Hooks {
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws MalformedURLException {
         changeDriverTo("web");
     }
 
     @Test
     @Order(1)
     @Tag("login_web")
-    @DisplayName("1 - Validando login na web com sucesso")
+    @DisplayName("[Web] 1 - Validando login na web com sucesso")
     public void validateLoginWebSuccessFull() {
         LoginWebActions loginWeb = new LoginWebActions();
         loginWeb.openApp();

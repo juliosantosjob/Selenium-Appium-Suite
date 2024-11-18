@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
 
-
 import static automation.example.com.utils.Reports.attachScreenshot;
 import static java.lang.System.out;
 
@@ -32,12 +31,12 @@ public class Hooks extends BaseTest {
 
     @BeforeAll
     public static void initSuite() {
-        out.println("Initializing test suite...");
+        out.println("Initializing test suite...\n");
     }
 
     @AfterAll
     public static void endSuite() {
-        out.println("Ending test suite...");
         out.println("Count of scenarios executed: " + testCount);
+        out.println("Ending test suite...\n");
     }
 }

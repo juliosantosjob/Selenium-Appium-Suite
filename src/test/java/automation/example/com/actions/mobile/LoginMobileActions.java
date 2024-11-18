@@ -1,6 +1,6 @@
-package automation.example.com.usecases.mobile.actions;
+package automation.example.com.actions.mobile;
 
-import static automation.example.com.usecases.mobile.pages.LoginMobilePages.*;
+import static automation.example.com.pages.mobile.LoginMobilePages.*;
 import static automation.example.com.support.BaseTest.*;
 import static java.lang.System.out;
 
