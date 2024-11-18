@@ -9,9 +9,9 @@ import static java.lang.System.out;
 public class LoginWebActions {
     public static final String baseUrl = EnvProperties.getEnv("app.base.url");
 
-    public void openApp() {
+    public void openSite() {
         visit(baseUrl);
-        visibleText("Swag Labs");
+        visible(appLogo);
         out.println("- Abre o aplicativo e verifica o titulo Swag Labs.");
     }
 

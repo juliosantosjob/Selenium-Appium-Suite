@@ -7,7 +7,7 @@ import static java.lang.System.out;
 public class LoginMobileActions {
 
     public void openApp() {
-        visible(appLogo);
+        getElement(appLogo).isDisplayed();
         out.println("- Abre o aplicativo e verifica a visibilidade do logo.");
     }
 

@@ -10,16 +10,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.net.MalformedURLException;
 import java.time.Duration;
 
-import static automation.example.com.support.ManagerViews.*;
+import static automation.example.com.support.HelpConfig.helpConfig;
 import static java.lang.Long.parseLong;
 
 public class BaseTest {
     protected static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
     protected static final String browser = EnvProperties.getEnv("app.base.browser");
     protected static final String platform = EnvProperties.getEnv("app.base.platform");
-    protected static int testCount = 0;
     protected static WebDriverWait wait;
     protected static WebDriver driver;
+    protected static int testCount = 0;
 
     public static WebDriver getWebDriver(String browserType) {
         return Browsers.getInstanceOptions(browserType);
@@ -43,7 +43,7 @@ public class BaseTest {
         } else {
             throw new IllegalArgumentException("Driver type not supported: " + driverType);
         }
-        helpConfig();
+        helpConfig(driverType);
     }
 
     public static WebDriver getDriver() {
@@ -208,7 +208,6 @@ public class BaseTest {
         try {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-
             element.isDisplayed();
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());

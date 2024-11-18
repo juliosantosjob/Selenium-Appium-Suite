@@ -28,10 +28,10 @@ public class LoginWebTest extends Hooks {
     @Test
     @Order(1)
     @Tag("login_web")
-    @DisplayName("[Web] 1 - Validando login na web com sucesso")
+    @DisplayName("1 - Validando login na web com sucesso")
     public void validateLoginWebSuccessFull() {
         LoginWebActions loginWeb = new LoginWebActions();
-        loginWeb.openApp();
+        loginWeb.openSite();
         loginWeb.fillForm("standard_user", "secret_sauce");
         loginWeb.submitLogin();
         assertEquals("Products", loginWeb.getTextProduct());
@@ -43,7 +43,7 @@ public class LoginWebTest extends Hooks {
     @DisplayName("2 - Validando login web com usuário invalido")
     public void validateLoginWebInvalidUser() {
         LoginWebActions loginWeb = new LoginWebActions();
-        loginWeb.openApp();
+        loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "secret_sauce");
         loginWeb.submitLogin();
         assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
@@ -55,7 +55,7 @@ public class LoginWebTest extends Hooks {
     @DisplayName("3 - Validando login web com senha invalida")
     public void validateLoginWebInvalidPassword() {
         LoginWebActions loginWeb = new LoginWebActions();
-        loginWeb.openApp();
+        loginWeb.openSite();
         loginWeb.fillForm("standard_user", "invalid_password");
         loginWeb.submitLogin();
         assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());

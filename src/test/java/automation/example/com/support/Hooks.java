@@ -14,29 +14,29 @@ public class Hooks extends BaseTest {
 
     @BeforeEach
     public void init(TestInfo testInfo) {
-        out.println("************************************************************");
+        out.println("───────────────────────────────────────────────────────────────");
         out.println("Feature: " + getClass().getAnnotation(DisplayName.class).value());
         out.println("Scenario: " + testInfo.getDisplayName());
         out.println("Tags: " + testInfo.getTags());
-        out.println("************************************************************");
+        out.println(" ");
     }
 
     @AfterEach
     public void end() {
+        out.println("───────────────────────────────────────────────────────────────\n\n");
         attachScreenshot();
-        out.println("\n");
         testCount++;
         tearDown();
     }
 
     @BeforeAll
     public static void initSuite() {
-        out.println("Initializing test suite...\n");
+        out.println("Starting test...\n");
     }
 
     @AfterAll
     public static void endSuite() {
         out.println("Count of scenarios executed: " + testCount);
-        out.println("Ending test suite...\n");
+        out.println("Ending test...\n");
     }
 }
