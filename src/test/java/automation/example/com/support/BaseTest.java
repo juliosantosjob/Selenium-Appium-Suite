@@ -77,7 +77,7 @@ public class BaseTest {
         } catch (TimeoutException e) {
             throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
         } catch (NoSuchElementException e) {
-            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+            throw new NoSuchElementException("Error: No such element with the locator. " + by + "\n" + e.getMessage());
         } catch (ElementNotInteractableException e) {
             throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
         } catch (WebDriverException e) {
