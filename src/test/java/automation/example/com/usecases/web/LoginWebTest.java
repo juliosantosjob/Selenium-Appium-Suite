@@ -60,4 +60,16 @@ public class LoginWebTest extends Hooks {
         loginWeb.submitLogin();
         assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
     }
+
+    @Test
+    @Order(4)
+    @Tag("loginWeb_invalid_user_password")
+    @DisplayName("4 - Validando login web com usuário e senha invalidos")
+    public void validateLoginWebInvalidUserPassword() {
+        LoginWebActions loginWeb = new LoginWebActions();
+        loginWeb.openSite();
+        loginWeb.fillForm("invalid_user", "invalid_password");
+        loginWeb.submitLogin();
+        assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+    }
 }

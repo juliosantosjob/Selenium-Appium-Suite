@@ -12,6 +12,7 @@ import java.time.Duration;
 
 import static automation.example.com.support.HelpConfig.helpConfig;
 import static java.lang.Long.parseLong;
+import static java.lang.System.out;
 
 public class BaseTest {
     protected static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
@@ -36,6 +37,10 @@ public class BaseTest {
     }
 
     public static void changeDriverTo(String driverType) throws MalformedURLException {
+        if (driver != null) {
+            tearDown();
+        }
+
         if ("mobile".equalsIgnoreCase(driverType)) {
             driver = getMobileDriver(platform);
         } else if ("web".equalsIgnoreCase(driverType)) {
@@ -241,6 +246,24 @@ public class BaseTest {
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
 
             getElement(byElement).isDisplayed();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
+        }
+    }
+
+    public static void displayTextView(String text) {
+        By byElement = By.xpath("//android.widget.TextView[@text=\"" + text + "\"]");
+
+        try {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
+
+            getElement(byElement).isDisplayed();
+            out.println("- Exibe o TextView: " + text);
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
         } catch (ElementNotInteractableException e) {

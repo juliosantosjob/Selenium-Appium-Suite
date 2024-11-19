@@ -21,7 +21,7 @@ public class LoginMobileTest extends Hooks {
 
     @Test
     @Order(1)
-    @Tag("login")
+    @Tag("login_mobile_successful")
     @DisplayName("1 - Validando login no mobile com sucesso")
     public void validateLoginMobileSuccessFull() throws MalformedURLException {
         LoginMobileActions loginMobile = new LoginMobileActions();
@@ -29,5 +29,76 @@ public class LoginMobileTest extends Hooks {
         loginMobile.fillForm("standard_user", "secret_sauce");
         loginMobile.submitLogin();
         assertEquals("PRODUCTS", loginMobile.getTextProduct());
+    }
+
+    @Test
+    @Order(2)
+    @Tag("login_mobile_invalid_user")
+    @DisplayName("2 - Validando login mobile com usuário invalido")
+    public void validateLoginMobileInvalidUser() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.fillForm("invalid_user", "secret_sauce");
+        loginMobile.submitLogin();
+        displayTextView("Username and password do not match any user in this service.");
+    }
+
+    @Test
+    @Order(3)
+    @Tag("login_mobile_invalid_password")
+    @DisplayName("3 - Validando login mobile com senha invalida")
+    public void validateLoginMobileInvalidPassword() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.fillForm("standard_user", "invalid_password");
+        loginMobile.submitLogin();
+        displayTextView("Username and password do not match any user in this service.");
+    }
+
+    @Test
+    @Order(4)
+    @Tag("login_mobile_invalid_user_password")
+    @DisplayName("4 - Validando login mobile com usuário e senha invalidos")
+    public void validateLoginMobileInvalidUserPassword() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.fillForm("invalid_user", "invalid_password");
+        loginMobile.submitLogin();
+        displayTextView("Username and password do not match any user in this service.");
+    }
+
+    @Test
+    @Order(5)
+    @Tag("login_mobile_blank_user")
+    @DisplayName("5 - Validando login com usuario em branco")
+    public void validateLoginMobileWithBlankUser() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.fillForm("", "secret_sauce");
+        loginMobile.submitLogin();
+        displayTextView("Username is required");
+    }
+
+    @Test
+    @Order(6)
+    @Tag("login_mobile_blank_password")
+    @DisplayName("6 - Validando login com senha em branco")
+    public void validateLoginMobileWithBlankPassword() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.fillForm("standard_user", "");
+        loginMobile.submitLogin();
+        displayTextView("Password is required");
+    }
+
+    @Test
+    @Order(7)
+    @Tag("login_mobile_blank_user_password")
+    @DisplayName("7 - Validando login com usuario e senha em branco")
+    public void validateLoginMobileWithBlankUserAndPassword() throws MalformedURLException {
+        LoginMobileActions loginMobile = new LoginMobileActions();
+        loginMobile.openApp();
+        loginMobile.submitLogin();
+        displayTextView("Username is required");
     }
 }
