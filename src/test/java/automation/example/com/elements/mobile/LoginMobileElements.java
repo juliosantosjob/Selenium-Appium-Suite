@@ -1,9 +1,9 @@
-package automation.example.com.pages.mobile;
+package automation.example.com.elements.mobile;
 
 import automation.example.com.support.EnvProperties;
 import org.openqa.selenium.By;
 
-public class LoginMobilePages {
+public class LoginMobileElements {
     protected static final String platform = EnvProperties.getEnv("app.base.platform");
 
     public static By appLogo = platform.equalsIgnoreCase("android") ? By.xpath("//*[@content-desc='test-Login']//android.widget.ImageView[1]") : By.xpath("//XCUIElementTypeImage[@label='Swag Labs']");

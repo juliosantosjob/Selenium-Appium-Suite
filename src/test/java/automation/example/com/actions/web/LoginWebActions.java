@@ -2,7 +2,7 @@ package automation.example.com.actions.web;
 
 import automation.example.com.support.EnvProperties;
 
-import static automation.example.com.pages.web.LoginWebPages.*;
+import static automation.example.com.elements.web.LoginWebElements.*;
 import static automation.example.com.support.BaseTest.*;
 import static java.lang.System.out;
 
@@ -36,5 +36,17 @@ public class LoginWebActions {
         String errorMessage = grabText(messageError);
         out.println("- Obtém o texto do erro: " + errorMessage);
         return errorMessage;
+    }
+
+    public void doLogin(String username, String password) {
+        this.openSite();
+        this.fillForm(username, password);
+        this.submitLogin();
+        out.println("- Efetua login");
+    }
+
+    public void logout() {
+        click(loginButton);
+        out.println("- Efetua logout");
     }
 }

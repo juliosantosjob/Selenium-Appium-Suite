@@ -90,6 +90,15 @@ public class BaseTest {
         }
     }
 
+    public static WebElement contains(By by, String text, long... timeout) {
+        WebElement element = getElement(by).findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
+
+        if (!element.isDisplayed()) {
+            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n");
+        }
+        return element;
+    }
+
     public static String grabText(By by, long... timeout) {
         WebElement element = getElement(by);
 
@@ -227,7 +236,6 @@ public class BaseTest {
         try {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
-
             getElement(byElement).click();
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
@@ -244,7 +252,6 @@ public class BaseTest {
         try {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
-
             getElement(byElement).isDisplayed();
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
@@ -255,13 +262,12 @@ public class BaseTest {
         }
     }
 
-    public static void displayTextView(String text) {
+    public static void assertTextViewDisplayed(String text) {
         By byElement = By.xpath("//android.widget.TextView[@text=\"" + text + "\"]");
 
         try {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
-
             getElement(byElement).isDisplayed();
             out.println("- Exibe o TextView: " + text);
         } catch (NoSuchElementException e) {
@@ -270,6 +276,14 @@ public class BaseTest {
             throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
         } catch (WebDriverException e) {
             throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
+        }
+    }
+
+    public static void sleepToDebug(long time) {
+        try {
+            Thread.sleep(time * 1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -2,7 +2,13 @@ package automation.example.com.usecases.mobile;
 
 import automation.example.com.actions.mobile.LoginMobileActions;
 import automation.example.com.support.Hooks;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
 
 import java.net.MalformedURLException;
 
@@ -40,7 +46,7 @@ public class LoginMobileTest extends Hooks {
         loginMobile.openApp();
         loginMobile.fillForm("invalid_user", "secret_sauce");
         loginMobile.submitLogin();
-        displayTextView("Username and password do not match any user in this service.");
+        assertTextViewDisplayed("Username and password do not match any user in this service.");
     }
 
     @Test
@@ -52,7 +58,7 @@ public class LoginMobileTest extends Hooks {
         loginMobile.openApp();
         loginMobile.fillForm("standard_user", "invalid_password");
         loginMobile.submitLogin();
-        displayTextView("Username and password do not match any user in this service.");
+        assertTextViewDisplayed("Username and password do not match any user in this service.");
     }
 
     @Test
@@ -64,7 +70,7 @@ public class LoginMobileTest extends Hooks {
         loginMobile.openApp();
         loginMobile.fillForm("invalid_user", "invalid_password");
         loginMobile.submitLogin();
-        displayTextView("Username and password do not match any user in this service.");
+        assertTextViewDisplayed("Username and password do not match any user in this service.");
     }
 
     @Test
@@ -76,7 +82,7 @@ public class LoginMobileTest extends Hooks {
         loginMobile.openApp();
         loginMobile.fillForm("", "secret_sauce");
         loginMobile.submitLogin();
-        displayTextView("Username is required");
+        assertTextViewDisplayed("Username is required");
     }
 
     @Test
@@ -88,7 +94,7 @@ public class LoginMobileTest extends Hooks {
         loginMobile.openApp();
         loginMobile.fillForm("standard_user", "");
         loginMobile.submitLogin();
-        displayTextView("Password is required");
+        assertTextViewDisplayed("Password is required");
     }
 
     @Test
@@ -99,6 +105,6 @@ public class LoginMobileTest extends Hooks {
         LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.submitLogin();
-        displayTextView("Username is required");
+        assertTextViewDisplayed("Username is required");
     }
 }
