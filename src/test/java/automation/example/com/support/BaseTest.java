@@ -13,6 +13,7 @@ import java.time.Duration;
 import static automation.example.com.support.HelpConfig.helpConfig;
 import static java.lang.Long.parseLong;
 import static java.lang.System.out;
+import static java.lang.Thread.sleep;
 
 public class BaseTest {
     protected static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
@@ -90,14 +91,37 @@ public class BaseTest {
         }
     }
 
-    public static WebElement contains(By by, String text, long... timeout) {
+    public static WebElement getElementByText(String text, long... timeout) {
+        By by = By.xpath("//*[text()='" + text + "']");
+        WebElement element = getDriver().findElement(by);
+
+        try {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            return element;
+
+        } catch (TimeoutException e) {
+            throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: No such element with the text '" + text + "' \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element with text '" + text + "' is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
+        }
+    }
+
+    public static WebElement contains(By by, String text) {
         WebElement element = getElement(by).findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
 
         if (!element.isDisplayed()) {
-            throw new NoSuchElementException("Error: Element is not visible within the specified time. \n");
+            throw new NoSuchElementException("Error: No such element with the text '" + text + "' \n");
         }
+
         return element;
     }
+
 
     public static String grabText(By by, long... timeout) {
         WebElement element = getElement(by);
@@ -185,14 +209,20 @@ public class BaseTest {
             wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
             wait.until(ExpectedConditions.visibilityOfElementLocated(by));
             wait.until(ExpectedConditions.elementToBeClickable(by));
+            element.clear();
 
-            element.sendKeys(text);
+            for (char set : text.toCharArray()) {
+                sleep(1);
+                element.sendKeys(String.valueOf(set));
+            }
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
         } catch (ElementNotInteractableException e) {
             throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
         } catch (WebDriverException e) {
             throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Error: Interrupted. \n" + e.getMessage());
         }
     }
 
@@ -230,7 +260,7 @@ public class BaseTest {
         }
     }
 
-    public static void clickText(String text) {
+    public static void clickByText(String text) {
         By byElement = By.xpath("//*[contains(text(),\"" + text + "\")]");
 
         try {
@@ -279,9 +309,9 @@ public class BaseTest {
         }
     }
 
-    public static void sleepToDebug(long time) {
+    public static void stop(long time) {
         try {
-            Thread.sleep(time * 1000);
+            sleep(time * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

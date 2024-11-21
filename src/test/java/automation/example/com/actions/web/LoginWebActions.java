@@ -11,7 +11,7 @@ public class LoginWebActions {
 
     public void openSite() {
         visit(baseUrl);
-        visible(appLogo);
+        visible(loginButton);
         out.println("- Abre o aplicativo e verifica o titulo Swag Labs.");
     }
 

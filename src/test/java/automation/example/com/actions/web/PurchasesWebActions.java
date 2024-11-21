@@ -2,19 +2,19 @@ package automation.example.com.actions.web;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.locators.RelativeLocator;
 
 import static automation.example.com.support.BaseTest.*;
 
 public class PurchasesWebActions {
-    By fldItemName = By.xpath("//*[@class='inventory_item']");
+    By fldItemName = By.xpath("//*[@class='inventory_item_name']");
     By btnAddToCart = By.xpath("//*[@class='btn_primary btn_inventory']");
 
     public void selectItem(String itemText) {
-        WebElement item = contains(fldItemName, itemText);
-        WebElement nextElement = item.findElement(By.xpath(".//following::*[@class='btn_primary btn_inventory']"));
+        WebElement itemNameElement = contains(fldItemName, itemText);
+        WebElement addButton = getElement(RelativeLocator.with(btnAddToCart).below(itemNameElement));
+        addButton.click();
 
-        nextElement.click();
-        sleepToDebug(5);
+        stop(5);
     }
-
 }
