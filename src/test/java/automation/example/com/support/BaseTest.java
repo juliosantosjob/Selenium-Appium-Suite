@@ -4,6 +4,7 @@ import automation.example.com.support.instances.Browsers;
 import automation.example.com.support.instances.Devices;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -112,7 +113,7 @@ public class BaseTest {
         }
     }
 
-    public static WebElement contains(By by, String text) {
+    public static WebElement getByLocatorAndText(By by, String text) {
         WebElement element = getElement(by).findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
 
         if (!element.isDisplayed()) {
@@ -122,6 +123,20 @@ public class BaseTest {
         return element;
     }
 
+    public static WebElement getElementNearby(By byElement, WebElement webElement, String position) {
+        switch (position.toLowerCase()) {
+            case "below":
+                return getElement(RelativeLocator.with(byElement).below(webElement));
+            case "above":
+                return getElement(RelativeLocator.with(byElement).above(webElement));
+            case "right":
+                return getElement(RelativeLocator.with(byElement).toRightOf(webElement));
+            case "left":
+                return getElement(RelativeLocator.with(byElement).toLeftOf(webElement));
+            default:
+                throw new IllegalArgumentException("Position not supported: " + position + " Use \"below\", \"above\", \"right\" or \"left\"");
+        }
+    }
 
     public static String grabText(By by, long... timeout) {
         WebElement element = getElement(by);

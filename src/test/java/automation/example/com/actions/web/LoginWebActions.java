@@ -12,13 +12,13 @@ public class LoginWebActions {
     public void openSite() {
         visit(baseUrl);
         visible(loginButton);
-        out.println("- Abre o aplicativo e verifica o titulo Swag Labs.");
+        out.println("- Abre o site");
     }
 
     public void fillForm(String username, String password) {
         type(usernameInput, username);
         type(passwordInput, password);
-        out.println("- Preenche as credenciais do usuário");
+        out.println("- Preenche as credênciais de login");
     }
 
     public void submitLogin() {
@@ -46,7 +46,6 @@ public class LoginWebActions {
     }
 
     public void logout() {
-        click(loginButton);
-        out.println("- Efetua logout");
+
     }
 }
