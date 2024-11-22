@@ -14,12 +14,13 @@ import org.junit.jupiter.api.MethodOrderer;
 import java.net.MalformedURLException;
 
 @Tag("regression")
-@Tag("regression_web_products")
+@Tag("regression_web")
+@Tag("purchases_web")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Compra de produtos na web")
 public class PurchasesWebTest extends Hooks {
-    private final LoginWebActions loginWeb = new LoginWebActions();
-    private final PurchasesWebActions productsWeb = new PurchasesWebActions();
+    LoginWebActions loginWeb = new LoginWebActions();
+    PurchasesWebActions productsWeb = new PurchasesWebActions();
 
     @BeforeEach
     public void setup() throws MalformedURLException {

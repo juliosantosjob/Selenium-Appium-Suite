@@ -24,7 +24,7 @@ public class LoginMobileActions {
 
     public String getTextProduct() {
         String productText = grabText(textProduct);
-        out.println("- Obtém o texto: " + productText);
+        out.println("- Obtém o texto do produto '" + productText + "'");
         return productText;
     }
 }

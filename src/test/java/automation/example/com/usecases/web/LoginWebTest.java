@@ -12,13 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 
 import java.net.MalformedURLException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 @Tag("regression")
 @Tag("regression_web")
+@Tag("regression_login_web")
+@Tag("regression_login")
 @DisplayName("Login na Web")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginWebTest extends Hooks {
+    LoginWebActions loginWeb = new LoginWebActions();
 
     @BeforeEach
     public void setup() throws MalformedURLException {
@@ -27,14 +28,13 @@ public class LoginWebTest extends Hooks {
 
     @Test
     @Order(1)
-    @Tag("login_web")
+    @Tag("login_web_successfully")
     @DisplayName("1 - Validando login na web com sucesso")
     public void validateLoginWebSuccessFull() {
-        LoginWebActions loginWeb = new LoginWebActions();
         loginWeb.openSite();
         loginWeb.fillForm("standard_user", "secret_sauce");
         loginWeb.submitLogin();
-        assertEquals("Products", loginWeb.getTextProduct());
+        assertText("Products", loginWeb.getTextProduct());
     }
 
     @Test
@@ -42,11 +42,10 @@ public class LoginWebTest extends Hooks {
     @Tag("loginWeb_invalid_user")
     @DisplayName("2 - Validando login web com usuário invalido")
     public void validateLoginWebInvalidUser() {
-        LoginWebActions loginWeb = new LoginWebActions();
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "secret_sauce");
         loginWeb.submitLogin();
-        assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
     }
 
     @Test
@@ -54,11 +53,10 @@ public class LoginWebTest extends Hooks {
     @Tag("loginWeb_invalid_password")
     @DisplayName("3 - Validando login web com senha invalida")
     public void validateLoginWebInvalidPassword() {
-        LoginWebActions loginWeb = new LoginWebActions();
         loginWeb.openSite();
         loginWeb.fillForm("standard_user", "invalid_password");
         loginWeb.submitLogin();
-        assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
     }
 
     @Test
@@ -66,10 +64,9 @@ public class LoginWebTest extends Hooks {
     @Tag("loginWeb_invalid_user_password")
     @DisplayName("4 - Validando login web com usuário e senha invalidos")
     public void validateLoginWebInvalidUserPassword() {
-        LoginWebActions loginWeb = new LoginWebActions();
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "invalid_password");
         loginWeb.submitLogin();
-        assertEquals("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
     }
 }

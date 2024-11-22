@@ -3,7 +3,16 @@ package automation.example.com.support;
 import automation.example.com.support.instances.Browsers;
 import automation.example.com.support.instances.Devices;
 
-import org.openqa.selenium.*;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.support.locators.RelativeLocator;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -15,6 +24,7 @@ import static automation.example.com.support.HelpConfig.helpConfig;
 import static java.lang.Long.parseLong;
 import static java.lang.System.out;
 import static java.lang.Thread.sleep;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BaseTest {
     protected static final long TIMEOUT = parseLong(EnvProperties.getEnv("app.base.timeout"));
@@ -64,6 +74,10 @@ public class BaseTest {
         }
     }
 
+    /**
+     * Comandos para interação
+     */
+
     public static void visit(String url) {
         try {
             getDriver().get(url);
@@ -71,6 +85,15 @@ public class BaseTest {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Comandos para busca de elementos
+     *
+     * @param by elemento a ser procurado
+     * @param timeout tempo minimo de espera
+     *
+     * @return WebElement
+     */
 
     public static WebElement getElement(By by, long... timeout) {
         WebElement element = getDriver().findElement(by);
@@ -87,6 +110,30 @@ public class BaseTest {
             throw new NoSuchElementException("Error: No such element with the locator. " + by + "\n" + e.getMessage());
         } catch (ElementNotInteractableException e) {
             throw new ElementNotInteractableException("Error: Element is not interactable. \n" + e.getMessage());
+        } catch (WebDriverException e) {
+            throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
+        }
+    }
+
+    public static WebElement getByLocatorAndText(By by, String text, long... timeout) {
+        WebElement element = getElement(by).findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
+
+        if (!element.isDisplayed()) {
+            throw new NoSuchElementException("Error: No such element with the text '" + text + "' \n");
+        }
+
+        try {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(timeout.length > 0 ? timeout[0] : TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            return element;
+
+        } catch (TimeoutException e) {
+            throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("Error: No such element with the text '" + text + "' \n" + e.getMessage());
+        } catch (ElementNotInteractableException e) {
+            throw new ElementNotInteractableException("Error: Element with text '" + text + "' is not interactable. \n" + e.getMessage());
         } catch (WebDriverException e) {
             throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
@@ -113,18 +160,16 @@ public class BaseTest {
         }
     }
 
-    public static WebElement getByLocatorAndText(By by, String text) {
-        WebElement element = getElement(by).findElement(By.xpath("//*[contains(text(),'" + text + "')]"));
-
-        if (!element.isDisplayed()) {
-            throw new NoSuchElementException("Error: No such element with the text '" + text + "' \n");
+    public static WebElement locateElementNear(By byElement, String direction, WebElement webElement) {
+        try {
+            wait = new WebDriverWait(getDriver(), Duration.ofSeconds(TIMEOUT));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(byElement));
+            wait.until(ExpectedConditions.elementToBeClickable(byElement));
+        } catch (TimeoutException e) {
+            throw new TimeoutException("Timeout: The element is not visible within the defined time. \n" + e.getMessage());
         }
 
-        return element;
-    }
-
-    public static WebElement getElementNearby(By byElement, WebElement webElement, String position) {
-        switch (position.toLowerCase()) {
+        switch (direction.toLowerCase()) {
             case "below":
                 return getElement(RelativeLocator.with(byElement).below(webElement));
             case "above":
@@ -134,7 +179,7 @@ public class BaseTest {
             case "left":
                 return getElement(RelativeLocator.with(byElement).toLeftOf(webElement));
             default:
-                throw new IllegalArgumentException("Position not supported: " + position + " Use \"below\", \"above\", \"right\" or \"left\"");
+                throw new IllegalArgumentException("Position not supported: " + direction + " Use \"below\", \"above\", \"right\" or \"left\"");
         }
     }
 
@@ -226,9 +271,14 @@ public class BaseTest {
             wait.until(ExpectedConditions.elementToBeClickable(by));
             element.clear();
 
-            for (char set : text.toCharArray()) {
-                sleep(1);
-                element.sendKeys(String.valueOf(set));
+            if (getDriver() instanceof AndroidDriver|| getDriver() instanceof IOSDriver) {
+                element.sendKeys(text);
+
+            } else if (getDriver() instanceof WebDriver) {
+                for (char t : text.toCharArray()) {
+                    sleep(100);
+                    element.sendKeys(String.valueOf(t));
+                }
             }
         } catch (NoSuchElementException e) {
             throw new NoSuchElementException("Error: Element is not visible within the specified time. \n" + e.getMessage());
@@ -237,7 +287,7 @@ public class BaseTest {
         } catch (WebDriverException e) {
             throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         } catch (InterruptedException e) {
-            throw new RuntimeException("Error: Interrupted. \n" + e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -291,6 +341,20 @@ public class BaseTest {
         }
     }
 
+    /**
+     * Métodos de validação
+     */
+
+    public void assertText(String initialText, String textToCompare) {
+        try {
+            assertEquals(initialText, textToCompare);
+            out.println("- Exibe o texto: '" + textToCompare + "'");
+        } catch (AssertionError e) {
+            throw new AssertionError("[AVISO] O texto '" + textToCompare + "' não é igual ao '" + initialText + "' \n" + e.getMessage());
+        }
+
+    }
+
     public static void visibleText(String text) {
         By byElement = By.xpath("//*[contains(text(),\"" + text + "\")]");
 
@@ -323,6 +387,10 @@ public class BaseTest {
             throw new WebDriverException("Error: Webdriver failed. \n" + e.getMessage());
         }
     }
+
+    /**
+     * Métodos auxiliares
+     */
 
     public static void stop(long time) {
         try {

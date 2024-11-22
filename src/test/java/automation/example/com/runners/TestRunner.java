@@ -10,7 +10,7 @@ import org.junit.platform.suite.api.SelectPackages;
 import org.junit.platform.suite.api.Suite;
 
 @Suite
-@IncludeTags("products_web")
+@IncludeTags("login_mobile_successfully")
 @DisplayName("Classe de execução dos testes - Swag Labs Application")
 @SelectPackages("src.test.java.automation.example.com.modules")
 @SelectClasses({
@@ -19,5 +19,4 @@ import org.junit.platform.suite.api.Suite;
         PurchasesWebTest.class
 })
 
-public class TestRunner {
-}
+public class TestRunner { }

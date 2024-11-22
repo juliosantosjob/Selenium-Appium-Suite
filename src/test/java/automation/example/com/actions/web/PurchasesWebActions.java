@@ -7,7 +7,7 @@ import static java.lang.System.out;
 public class PurchasesWebActions {
 
     public void selectItem(String itemText) {
-        getElementNearby(btnAddToCart, getByLocatorAndText(fldItemName, itemText), "below").click();
+        locateElementNear(btnAddToCart, "below", getByLocatorAndText(fldItemName, itemText)).click();
         out.println("- Adiciona o item " + itemText + " ao carrinho.");
     }
 

@@ -16,9 +16,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Tag("regression")
 @Tag("regression_mobile")
+@Tag("regression_login_mobile")
+@Tag("regression_login")
 @DisplayName("Login no Mobile")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginMobileTest extends Hooks {
+    LoginMobileActions loginMobile = new LoginMobileActions();
 
     @BeforeEach
     public void setup() throws MalformedURLException {
@@ -27,14 +30,13 @@ public class LoginMobileTest extends Hooks {
 
     @Test
     @Order(1)
-    @Tag("login_mobile_successful")
+    @Tag("login_mobile_successfully")
     @DisplayName("1 - Validando login no mobile com sucesso")
     public void validateLoginMobileSuccessFull() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("standard_user", "secret_sauce");
         loginMobile.submitLogin();
-        assertEquals("PRODUCTS", loginMobile.getTextProduct());
+        assertText("PRODUCTS", loginMobile.getTextProduct());
     }
 
     @Test
@@ -42,7 +44,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_invalid_user")
     @DisplayName("2 - Validando login mobile com usuário invalido")
     public void validateLoginMobileInvalidUser() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("invalid_user", "secret_sauce");
         loginMobile.submitLogin();
@@ -54,7 +55,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_invalid_password")
     @DisplayName("3 - Validando login mobile com senha invalida")
     public void validateLoginMobileInvalidPassword() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("standard_user", "invalid_password");
         loginMobile.submitLogin();
@@ -66,7 +66,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_invalid_user_password")
     @DisplayName("4 - Validando login mobile com usuário e senha invalidos")
     public void validateLoginMobileInvalidUserPassword() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("invalid_user", "invalid_password");
         loginMobile.submitLogin();
@@ -78,7 +77,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_blank_user")
     @DisplayName("5 - Validando login com usuario em branco")
     public void validateLoginMobileWithBlankUser() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("", "secret_sauce");
         loginMobile.submitLogin();
@@ -90,7 +88,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_blank_password")
     @DisplayName("6 - Validando login com senha em branco")
     public void validateLoginMobileWithBlankPassword() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.fillForm("standard_user", "");
         loginMobile.submitLogin();
@@ -102,7 +99,6 @@ public class LoginMobileTest extends Hooks {
     @Tag("login_mobile_blank_user_password")
     @DisplayName("7 - Validando login com usuario e senha em branco")
     public void validateLoginMobileWithBlankUserAndPassword() throws MalformedURLException {
-        LoginMobileActions loginMobile = new LoginMobileActions();
         loginMobile.openApp();
         loginMobile.submitLogin();
         assertTextViewDisplayed("Username is required");

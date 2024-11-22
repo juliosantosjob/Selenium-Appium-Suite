@@ -1,6 +1,7 @@
 package automation.example.com.elements.mobile;
 
 import automation.example.com.support.EnvProperties;
+import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 
 public class LoginMobileElements {

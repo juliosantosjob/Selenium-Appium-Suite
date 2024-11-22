@@ -1,5 +1,6 @@
 package automation.example.com.elements.web;
 
+import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.By;
 
 public class LoginWebElements {
