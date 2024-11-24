@@ -33,7 +33,11 @@ public class PurchasesWebTest extends Hooks {
     @Tag("products_web")
     @DisplayName("1 - Validando compra de produto na web")
     public void purchaseProductOnSite() {
-        productsWeb.selectItem("Sauce Labs Bolt T-Shirt");
+        String product = "Sauce Labs Bolt T-Shirt";
+
+        productsWeb.selectItem(product);
         productsWeb.goToCart();
+        productsWeb.checkItemOnCart(product);
+        productsWeb.goToCheckout();
     }
 }

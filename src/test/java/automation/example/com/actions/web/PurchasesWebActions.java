@@ -8,11 +8,22 @@ public class PurchasesWebActions {
 
     public void selectItem(String itemText) {
         locateElementNear(btnAddToCart, "below", getByLocatorAndText(fldItemName, itemText)).click();
-        out.println("- Adiciona o item " + itemText + " ao carrinho.");
+        out.println("- Adiciona o item \"" + itemText + "\" ao carrinho.");
     }
 
     public void goToCart() {
         click(btnShoppingCart);
         out.println("- Acessa o carrinho.");
+    }
+
+    public void checkItemOnCart(String itemText) {
+        getByLocatorAndText(fldItemName, itemText).isDisplayed();
+        out.println("- Verifica o item \"" + itemText + "\" no carrinho.");
+    }
+
+    public void goToCheckout() {
+        click(btnCheckout);
+        visibleText("Checkout: Your Information");
+        out.println("- Vai para o checkout.");
     }
 }
