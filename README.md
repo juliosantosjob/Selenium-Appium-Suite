@@ -28,7 +28,13 @@ Clone o repositório e acesse o diretorio do projeto:
 
 ## ▶️ Como Executar
 
-Execute os testes com o seguinte comando:
+Inicie o servidor do appium usando o comando:
+
+```bash
+   appium
+```
+
+Com um emulator estartado execute os testes com o seguinte comando:
 
 ```bash
    mvn clean test
