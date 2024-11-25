@@ -34,11 +34,11 @@ public class BaseTest {
     protected static WebDriver driver;
     protected static int testCount = 0;
 
-    public static WebDriver getWebDriver(String browserType) {
+    public static WebDriver getDriverForWeb(String browserType) {
         return Browsers.getInstanceOptions(browserType);
     }
 
-    public static WebDriver getMobileDriver(String platformType) throws MalformedURLException {
+    public static WebDriver getDriverForMobile(String platformType) throws MalformedURLException {
         if ("android".equalsIgnoreCase(platformType)) {
             return Devices.getInstanceAndroid();
         } else if ("ios".equalsIgnoreCase(platformType)) {
@@ -54,9 +54,9 @@ public class BaseTest {
         }
 
         if ("mobile".equalsIgnoreCase(driverType)) {
-            driver = getMobileDriver(platform);
+            driver = getDriverForMobile(platform);
         } else if ("web".equalsIgnoreCase(driverType)) {
-            driver = getWebDriver(browser);
+            driver = getDriverForWeb(browser);
         } else {
             throw new IllegalArgumentException("Driver type not supported: " + driverType);
         }
@@ -85,15 +85,6 @@ public class BaseTest {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Comandos para busca de elementos
-     *
-     * @param by elemento a ser procurado
-     * @param timeout tempo minimo de espera
-     *
-     * @return WebElement
-     */
 
     public static WebElement getElement(By by, long... timeout) {
         WebElement element = getDriver().findElement(by);

@@ -32,7 +32,7 @@ public class LoginWebActions {
         return productText;
     }
 
-    public String getErrorMessage() {
+    public String getMessageErrorLogin() {
         String errorMessage = grabText(messageError);
         out.println("- Obtém o texto do erro: " + errorMessage);
         return errorMessage;
@@ -43,9 +43,5 @@ public class LoginWebActions {
         this.fillForm(username, password);
         this.submitLogin();
         out.println("- Efetua login");
-    }
-
-    public void logout() {
-
     }
 }

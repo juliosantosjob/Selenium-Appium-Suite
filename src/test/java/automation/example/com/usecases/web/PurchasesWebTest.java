@@ -19,6 +19,7 @@ import java.net.MalformedURLException;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @DisplayName("Compra de produtos na web")
 public class PurchasesWebTest extends Hooks {
+    String product = "Sauce Labs Bolt T-Shirt";
     LoginWebActions loginWeb = new LoginWebActions();
     PurchasesWebActions productsWeb = new PurchasesWebActions();
 
@@ -33,11 +34,12 @@ public class PurchasesWebTest extends Hooks {
     @Tag("products_web")
     @DisplayName("1 - Validando compra de produto na web")
     public void purchaseProductOnSite() {
-        String product = "Sauce Labs Bolt T-Shirt";
-
         productsWeb.selectItem(product);
         productsWeb.goToCart();
         productsWeb.checkItemOnCart(product);
         productsWeb.goToCheckout();
+        productsWeb.fillPersonalData("John", "Doe", "12345");
+        productsWeb.submitCheckout();
+        productsWeb.finishPurchase();
     }
 }

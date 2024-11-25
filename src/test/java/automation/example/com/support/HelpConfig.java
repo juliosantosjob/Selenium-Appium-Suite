@@ -11,20 +11,17 @@ public class HelpConfig extends BaseTest {
     private static String[] size;
 
     public static void helpConfig(String driverType) {
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
         if (driverType.equalsIgnoreCase("web")) {
             if (viewPort == null || viewPort.isEmpty()) {
                 getDriver().manage().window().maximize();
             } else {
                 size = viewPort.toLowerCase().split("x");
                 if (size.length != 2) {
-                    System.err.println("Invalid viewport format expected: -DSET_VIEWPORT=1920x1080");
+                    throw new IllegalArgumentException("Invalid viewport size: " + viewPort);
                 }
-                int width = parseInt(size[0]);
-                int height = parseInt(size[1]);
-
-                getDriver().manage().window().setSize(new Dimension(width, height));
+                getDriver().manage().window().setSize(new Dimension(parseInt(size[0]), parseInt(size[1])));
             }
         }
-        getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
     }
 }

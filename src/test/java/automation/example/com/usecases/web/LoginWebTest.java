@@ -45,7 +45,7 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "secret_sauce");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("standard_user", "invalid_password");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
     }
 
     @Test
@@ -67,6 +67,6 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "invalid_password");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getErrorMessage());
+        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
     }
 }
