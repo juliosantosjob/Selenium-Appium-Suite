@@ -21,6 +21,7 @@ public class Devices {
         capabilities.setCapability("appium:appWaitActivity", "com.swaglabsmobileapp.*");
         capabilities.setCapability("appium:unicodeKeyboard", true);
         capabilities.setCapability("appium:resetKeyboard", true);
+
         return new AndroidDriver(new URL(APPIUM_SERVER), capabilities);
     }
 
@@ -32,6 +33,7 @@ public class Devices {
         capabilities.setCapability("appium:noReset", "true");
         capabilities.setCapability("appium:autoAcceptAlerts", true);
         capabilities.setCapability("appium:keyboardShorthand", true);
+
         return new IOSDriver(new URL(APPIUM_SERVER), capabilities);
     }
 }

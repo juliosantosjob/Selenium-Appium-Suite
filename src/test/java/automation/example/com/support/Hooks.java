@@ -6,14 +6,19 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.TestInfo;
+import org.monte.screenrecorder.ScreenRecorder;
 
-import static automation.example.com.utils.Reports.attachScreenshot;
+import static automation.example.com.utils.Reports.*;
+import static automation.example.com.utils.Recordings.startRecord;
+import static automation.example.com.utils.Recordings.stopRecord;
 import static java.lang.System.out;
 
 public class Hooks extends BaseTest {
+    ScreenRecorder screenRecorder;
 
     @BeforeEach
-    public void init(TestInfo testInfo) {
+    public void init(TestInfo testInfo) throws Exception {
+        startRecord(testInfo.getDisplayName());
         out.println("───────────────────────────────────────────────────────────────");
         out.println("Feature: " + getClass().getAnnotation(DisplayName.class).value());
         out.println("Scenario: " + testInfo.getDisplayName());
@@ -22,9 +27,10 @@ public class Hooks extends BaseTest {
     }
 
     @AfterEach
-    public void end() {
+    public void end() throws Exception {
         out.println("───────────────────────────────────────────────────────────────\n\n");
         attachScreenshot();
+        stopRecord();
         testCount++;
         tearDown();
     }
