@@ -5,6 +5,7 @@ import automation.example.com.support.EnvProperties;
 import static automation.example.com.elements.web.LoginWebElements.*;
 import static automation.example.com.support.BaseTest.*;
 import static java.lang.System.out;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LoginWebActions {
     public static final String baseUrl = EnvProperties.getEnv("app.base.url");
@@ -26,16 +27,14 @@ public class LoginWebActions {
         out.println("- Submete o formulário de login");
     }
 
-    public String getTextProduct() {
-        String productText = grabText(fieldProduct);
-        out.println("- Obtém o texto do produto: " + productText);
-        return productText;
+    public void verifyOk(String message) {
+        assertEquals(message, grabText(fieldProduct));
+        out.println("- Exibe a mensagem de sucesso: " + message);
     }
 
-    public String getMessageErrorLogin() {
-        String errorMessage = grabText(messageError);
-        out.println("- Obtém o texto do erro: " + errorMessage);
-        return errorMessage;
+    public void verifyError(String message) {
+        assertEquals(message, grabText(messageError));
+        out.println("- Exibe o texto: " + message);
     }
 
     public void doLogin(String username, String password) {

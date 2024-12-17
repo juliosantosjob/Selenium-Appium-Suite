@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 @DisplayName("Login na Web")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginWebTest extends Hooks {
-    LoginWebActions loginWeb = new LoginWebActions();
+    private final LoginWebActions loginWeb = new LoginWebActions();
 
     @BeforeEach
     public void setup() throws MalformedURLException {
@@ -34,7 +34,7 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("standard_user", "secret_sauce");
         loginWeb.submitLogin();
-        assertText("Products", loginWeb.getTextProduct());
+        loginWeb.verifyOk("Products");
     }
 
     @Test
@@ -45,7 +45,7 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "secret_sauce");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
+        loginWeb.verifyError("Epic sadface: Username and password do not match any user in this service");
     }
 
     @Test
@@ -56,7 +56,7 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("standard_user", "invalid_password");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
+        loginWeb.verifyError("Epic sadface: Username and password do not match any user in this service");
     }
 
     @Test
@@ -67,6 +67,6 @@ public class LoginWebTest extends Hooks {
         loginWeb.openSite();
         loginWeb.fillForm("invalid_user", "invalid_password");
         loginWeb.submitLogin();
-        assertText("Epic sadface: Username and password do not match any user in this service", loginWeb.getMessageErrorLogin());
+        loginWeb.verifyError("Epic sadface: Username and password do not match any user in this service");
     }
 }

@@ -19,7 +19,7 @@ import java.net.MalformedURLException;
 @DisplayName("Login no Mobile")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class LoginMobileTest extends Hooks {
-    LoginMobileActions loginMobile = new LoginMobileActions();
+    private final LoginMobileActions loginMobile = new LoginMobileActions();
 
     @BeforeEach
     public void setup() throws MalformedURLException {
